@@ -68,6 +68,14 @@ Sometimes you don't care about checking HTTP if HTTPS is working. You can do tha
 ▶ cat domains.txt | httprobe --prefer-https
 ```
 
+## Filter Status Code
+
+Show only results with given response status code. You can do that with the `--status-codes` flag:
+
+```
+▶ cat domains.txt | httprobe --status-codes 200,301
+```
+
 ## Docker
 
 Build the docker container:
@@ -81,4 +89,3 @@ Run the container, passing the contents of a file into stdin of the process insi
 ```
 ▶ cat domains.txt | docker run -i httprobe <args>
 ```
-

@@ -1,3 +1,3 @@
-module github.com/tomnomnom/httprobe
+module github.com/davidwkirsch/httprobe
 
 go 1.18
