@@ -6,7 +6,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
@@ -216,7 +215,6 @@ func main() {
 }
 
 func isListening(client *http.Client, url, method string, statusCodes string) bool {
-
 	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
 		return false
@@ -227,13 +225,18 @@ func isListening(client *http.Client, url, method string, statusCodes string) bo
 
 	resp, err := client.Do(req)
 	if resp != nil {
-		io.Copy(ioutil.Discard, resp.Body)
+		io.Copy(io.Discard, resp.Body)
 		resp.Body.Close()
 	}
 
-	if err != nil || !strings.Contains(statusCodes, strconv.Itoa(resp.StatusCode)) && statusCodes != "" {
+	if err != nil {
 		return false
 	}
 
-	return true
+	// Check if the statusCodes string is empty or if it contains the response status code
+	if statusCodes == "" || strings.Contains(statusCodes, strconv.Itoa(resp.StatusCode)) {
+		return true
+	}
+
+	return false
 }
